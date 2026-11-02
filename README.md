@@ -32,7 +32,8 @@ Penrose doesn't start? Run `./check-install.sh`. It prints one line per check, `
 | Keys | Action |
 |---|---|
 | `M + Return` / `M + d` | Terminal (st) / run a program (dmenu) |
-| `M + shift + q` | Close the window |
+| `M + w` / `M + r` | Browser (LibreWolf) / file manager (Thunar) |
+| `M + q` | Close the window |
 | `M + j/k` / `M + shift + j/k` | Focus / move the window down or up the stack |
 | `M + Up/Down` | More or fewer main windows |
 | `M + Left/Right` | Main area smaller or larger |
@@ -42,6 +43,8 @@ Penrose doesn't start? Run `./check-install.sh`. It prints one line per check, `
 | `M + bracketleft/bracketright` | Focus the previous / next display |
 | `M + Backspace` | System menu: lock, leave penrose, sleep, reboot, shutdown (`sysact`) |
 | `M + F3` | Display arrangement (`displayselect`) |
+| Volume keys / `M + equal/minus` | Volume up or down by 5% |
+| Brightness keys | Screen brightness up or down by 5% |
 | `M + shift + s` | Write the window manager state to the log |
 | `M + alt + Escape` | Exit penrose |
 

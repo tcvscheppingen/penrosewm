@@ -13,7 +13,7 @@ use penrose::x11rb::RustConn;
 use penrose::{
     Result,
     builtin::{
-        actions::{exit, log_current_state, modify_with, send_layout_message, spawn},
+        actions::{exit, key_handler, log_current_state, modify_with, send_layout_message, spawn},
         layout::{
             MainAndStack, Monocle,
             messages::{ExpandMain, IncMain, ShrinkMain},
@@ -27,6 +27,7 @@ use penrose::{
     },
     extensions::hooks::add_ewmh_hooks,
     map, stack,
+    util::spawn_with_args,
 };
 #[cfg(not(target_os = "macos"))]
 use penrose_ui::{bar::Position, core::TextStyle, status_bar};
@@ -51,6 +52,16 @@ const BAR_HEIGHT_PX: u32 = 18;
 const BROWSER: &str = "librewolf";
 const FILE_MANAGER: &str = "thunar";
 const TERMINAL: &str = "st";
+
+const VOLUME_UP: &str = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; pkill -RTMIN+10 dwmblocks";
+const VOLUME_DOWN: &str = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; pkill -RTMIN+10 dwmblocks";
+const BRIGHTNESS_UP: &str = "brightnessctl set 5%+";
+const BRIGHTNESS_DOWN: &str = "brightnessctl set 5%-";
+
+#[cfg(not(target_os = "macos"))]
+fn sh(command: &'static str) -> Box<dyn KeyEventHandler<RustConn>> {
+    key_handler(move |_, _| spawn_with_args("sh", &["-c", command]))
+}
 
 #[cfg(not(target_os = "macos"))]
 fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
@@ -79,6 +90,12 @@ fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
         "M-A-Escape" => exit(),
         "M-BackSpace" => spawn("sysact"),
         "M-F3" => spawn("displayselect"),
+        "XF86AudioRaiseVolume" => sh(VOLUME_UP),
+        "XF86AudioLowerVolume" => sh(VOLUME_DOWN),
+        "M-equal" => sh(VOLUME_UP),
+        "M-minus" => sh(VOLUME_DOWN),
+        "XF86MonBrightnessUp" => spawn(BRIGHTNESS_UP),
+        "XF86MonBrightnessDown" => spawn(BRIGHTNESS_DOWN),
     };
 
     for tag in &["1", "2", "3", "4", "5", "6", "7", "8", "9"] {
