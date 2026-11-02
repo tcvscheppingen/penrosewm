@@ -1,0 +1,4 @@
+#!/bin/sh
+# Recording block for dwmblocks: what dmenurecord sets (rec, mic or cam) while it records
+
+cat /tmp/recordingicon 2> /dev/null

@@ -69,8 +69,8 @@ fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
         "M-S-s" => log_current_state(),
         "M-Return" => spawn("st"),
         "M-A-Escape" => exit(),
-        "M-BackSpace" => spawn("displayselect"),
-       // "M-F3" => spawn("displayselect"),
+        "M-BackSpace" => spawn("sysact"),
+        "M-F3" => spawn("displayselect"),
     };
 
     for tag in &["1", "2", "3", "4", "5", "6", "7", "8", "9"] {

@@ -1,0 +1,31 @@
+#!/bin/sh
+# Volume block for dwmblocks, from WirePlumber's default output. Click for
+# the pulsemixer sound controls, middle click to mute, scroll to change the
+# volume.
+
+case $BLOCK_BUTTON in
+    1) setsid -w -f "${TERMINAL:-st}" -e pulsemixer ;;
+    2) wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle ;;
+    4) wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+ ;;
+    5) wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%- ;;
+esac
+
+volume=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ 2> /dev/null) || exit
+sink=$(wpctl inspect @DEFAULT_AUDIO_SINK@ 2> /dev/null)
+
+# PipeWire's placeholder when it finds no sound card; see sound-fix
+case "$sink" in
+    *'node.name = "auto_null"'*) echo 'vol dummy'; exit ;;
+esac
+
+case "$volume" in
+    *MUTED*) echo 'vol mute'; exit ;;
+esac
+
+# "Volume: 0.45" -> 45
+percent=$(echo "$volume" | awk '{ printf "%d", $2 * 100 + 0.5 }')
+if echo "$sink" | grep -q 'device.api = "bluez5"'; then
+    echo "vol $percent% bt"
+else
+    echo "vol $percent%"
+fi

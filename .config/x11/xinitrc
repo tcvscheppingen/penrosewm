@@ -1,0 +1,57 @@
+#!/bin/sh
+# Started by startx (see "Starting penrose on login" in the README). Starts
+# what penrose doesn't start itself, then penrose.
+
+# dwmblocks runs the bar blocks in ~/.local/bin/statusbar
+export PATH="$HOME/.local/bin:$HOME/.local/bin/statusbar:$PATH"
+# nmtui and other newt programs in colors close to gruvbox
+export NEWT_COLORS='root=,black window=,black border=blue,black title=blue,black
+roottext=white,black textbox=white,black label=white,black helpline=white,black
+button=black,blue actbutton=black,blue compactbutton=white,black
+listbox=white,black actlistbox=black,blue sellistbox=blue,black actsellistbox=black,blue
+entry=white,black disentry=gray,black checkbox=white,black actcheckbox=black,blue
+emptyscale=,black fullscale=,blue'
+
+xrdb -merge ~/.config/x11/xresources
+xsetroot -cursor_name left_ptr
+# Sets the wallpaper that ~/.local/share/bg links to
+setbg
+
+# GTK 4 apps read their theme from gsettings; GTK 3 apps read
+# ~/.config/gtk-3.0/settings.ini. Dark is Adwaita's dark variant: there is
+# no Adwaita-dark theme without gnome-themes-extra, and GTK 3 then falls back
+# to light Adwaita.
+gnome_schema=org.gnome.desktop.interface
+gsettings set $gnome_schema color-scheme 'prefer-dark'
+gsettings set $gnome_schema gtk-theme 'Adwaita'
+gsettings set $gnome_schema icon-theme 'Adwaita'
+gsettings set $gnome_schema cursor-theme 'Adwaita'
+gsettings set $gnome_schema cursor-size 24
+
+# --systemd only where systemd runs; Artix with dinit has none
+dbus-update-activation-environment $([ -d /run/systemd/system ] && echo --systemd) DISPLAY XAUTHORITY
+
+# Lock after 5 minutes without input, turn the displays off after 10, and
+# lock before the computer goes to sleep. lockscreen uses the LightDM login
+# screen when LightDM started this session, and slock otherwise.
+xset s 300 300
+xset dpms 600 600 600
+xss-lock -- lockscreen &
+
+# The compositor, so st's background can be transparent
+xcompmgr &
+dunst &
+dwmblocks &
+# Hides the mouse cursor when it hasn't moved for a moment
+unclutter &
+# Fedora keeps the agent in /usr/libexec
+if command -v lxqt-policykit-agent > /dev/null; then
+    lxqt-policykit-agent &
+else
+    /usr/libexec/lxqt-policykit-agent &
+fi
+
+# penrose replaces this script, so the X session ends when penrose does
+# ("leave penrose" in sysact). The log is where to look when penrose doesn't
+# start.
+exec penrose > "$HOME/.local/share/penrose.log" 2>&1
