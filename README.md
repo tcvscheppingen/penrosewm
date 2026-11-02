@@ -2,6 +2,8 @@
 
 My window manager, built with the [Penrose](https://github.com/sminez/penrose) library, plus an auto rice script for the rest of the desktop: st, dmenu, slock, dwmblocks and dunst in [gruvbox](https://github.com/morhetz/gruvbox) dark, the same colors as the penrose bar. Based on [DARBS](https://github.com/tcvscheppingen/DARBS).
 
+![Opening terminals, switching layouts and workspaces, and starting a program from dmenu](demo.gif)
+
 ## Install
 
 For Arch and Arch based distributions, Fedora, and Artix with dinit. **Read a script before you run it.** Run it as your own user, not as root; it uses `sudo` where needed.
