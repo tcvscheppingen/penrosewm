@@ -29,9 +29,9 @@ install_fedora() {
 
     # pactl comes from pulseaudio-utils and nmtui from NetworkManager-tui on
     # Fedora. The -devel packages are for building penrose, the suckless
-    # programs and xwallpaper.
+    # programs and xwallpaper, and st's make install needs tic from ncurses.
     sudo dnf install \
-        gcc make pkgconf-pkg-config cargo rust \
+        gcc make pkgconf-pkg-config cargo rust ncurses \
         libX11-devel libXft-devel libXinerama-devel libXrandr-devel libXext-devel \
         libXres-devel libxcb-devel libXrender-devel freetype-devel fontconfig-devel harfbuzz-devel libxcrypt-devel \
         xcb-util-devel xcb-util-image-devel pixman-devel libjpeg-turbo-devel libpng-devel \
