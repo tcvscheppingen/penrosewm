@@ -172,6 +172,7 @@ dependencies = [
  "penrose",
  "penrose_ui",
  "tracing-subscriber",
+ "x11",
 ]
 
 [[package]]

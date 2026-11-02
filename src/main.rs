@@ -32,6 +32,8 @@ use penrose::{
 use penrose_ui::{bar::Position, core::TextStyle, status_bar};
 use std::collections::HashMap;
 use tracing_subscriber::{self, prelude::*};
+#[cfg(not(target_os = "macos"))]
+use x11::xlib::{Display, XErrorEvent, XSetErrorHandler};
 
 const FONT: &str = "JetBrainsMono Nerd Font:size=10";
 const BLACK: u32 = 0x282828ff;
@@ -100,12 +102,30 @@ fn layouts() -> LayoutStack {
     .map(|layout| ReserveTop::wrap(Gaps::wrap(layout, OUTER_PX, INNER_PX), BAR_HEIGHT_PX))
 }
 
+// The bar draws over its own Xlib connection, and Xlib's default error handler
+// exits the program. On a busy X server the bar's first copy to its window can
+// arrive before the window exists (BadDrawable on CopyArea). Like dwm, log X
+// errors and carry on: the next redraw draws the bar.
+#[cfg(not(target_os = "macos"))]
+unsafe extern "C" fn log_x_error(_: *mut Display, e: *mut XErrorEvent) -> i32 {
+    // SAFETY: Xlib passes a valid error event
+    let e = unsafe { &*e };
+    eprintln!(
+        "ignoring X error {} for request {} on resource {:#x}",
+        e.error_code, e.request_code, e.resourceid
+    );
+    0
+}
+
 #[cfg(not(target_os = "macos"))]
 fn main() -> Result<()> {
     tracing_subscriber::fmt()
         .with_env_filter("debug")
         .finish()
         .init();
+
+    // SAFETY: log_x_error only reads the event Xlib passes it
+    unsafe { XSetErrorHandler(Some(log_x_error)) };
 
     let config = add_ewmh_hooks(Config {
         default_layouts: layouts(),

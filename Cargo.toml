@@ -7,3 +7,4 @@ edition = "2024"
 penrose = "0.4.0"
 penrose_ui = "0.4.0"
 tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
+x11 = { version = "2.21.0", features = ["xlib"] }
