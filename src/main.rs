@@ -34,11 +34,10 @@ use std::collections::HashMap;
 use tracing_subscriber::{self, prelude::*};
 
 const FONT: &str = "JetBrainsMono Nerd Font:size=10";
-// The Nord palette, the same as st, dmenu, slock and dunst
-const BLACK: u32 = 0x2e3440ff; // nord0
-const WHITE: u32 = 0xd8dee9ff; // nord4
-const GREY: u32 = 0x4c566aff; // nord3
-const BLUE: u32 = 0x5e81acff; // nord10
+const BLACK: u32 = 0x282828ff;
+const WHITE: u32 = 0xebdbb2ff;
+const GREY: u32 = 0x3c3836ff;
+const BLUE: u32 = 0x458588ff;
 
 const MAX_MAIN: u32 = 1;
 const RATIO: f32 = 0.6;
@@ -70,11 +69,8 @@ fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
         "M-S-s" => log_current_state(),
         "M-Return" => spawn("st"),
         "M-A-Escape" => exit(),
-        "M-BackSpace" => spawn("sysact"),
-        "M-F3" => spawn("displayselect"),
-        "S-Print" => spawn("maimpick"),
-        "M-Print" => spawn("dmenurecord"),
-        "M-Delete" => spawn("dmenurecord kill"),
+        "M-BackSpace" => spawn("displayselect"),
+       // "M-F3" => spawn("displayselect"),
     };
 
     for tag in &["1", "2", "3", "4", "5", "6", "7", "8", "9"] {
@@ -113,8 +109,6 @@ fn main() -> Result<()> {
 
     let config = add_ewmh_hooks(Config {
         default_layouts: layouts(),
-        normal_border: GREY.into(),
-        focused_border: BLUE.into(),
         ..Config::default()
     });
 
