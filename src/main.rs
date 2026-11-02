@@ -48,6 +48,10 @@ const OUTER_PX: u32 = 5;
 const INNER_PX: u32 = 5;
 const BAR_HEIGHT_PX: u32 = 18;
 
+const BROWSER: &str = "librewolf";
+const FILE_MANAGER: &str = "thunar";
+const TERMINAL: &str = "st";
+
 #[cfg(not(target_os = "macos"))]
 fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
     let mut raw_bindings = map! {
@@ -69,7 +73,9 @@ fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
         "M-Left" => send_layout_message(|| ShrinkMain),
         "M-d" => spawn("dmenu_run"),
         "M-S-s" => log_current_state(),
-        "M-Return" => spawn("st"),
+        "M-Return" => spawn(TERMINAL),
+        "M-w" => spawn(BROWSER),
+        "M-r" => spawn(FILE_MANAGER),
         "M-A-Escape" => exit(),
         "M-BackSpace" => spawn("sysact"),
         "M-F3" => spawn("displayselect"),
