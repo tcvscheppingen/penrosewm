@@ -18,7 +18,7 @@ use penrose::{
     util::spawn_with_args,
 };
 #[cfg(not(target_os = "macos"))]
-use penrose::{pure::Screen, x11rb::RustConn};
+use penrose::x11rb::RustConn;
 #[cfg(not(target_os = "macos"))]
 use penrose_ui::{bar::Position, core::TextStyle, status_bar};
 use std::collections::HashMap;
