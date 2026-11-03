@@ -6,6 +6,7 @@ ok() { echo "ok       $1"; }
 problem() { echo "PROBLEM  $1"; }
 
 # Edition 2024 in Cargo.toml needs Rust 1.85 or newer
+if [ -e "$HOME/.cargo/env" ]; then . "$HOME/.cargo/env"; fi
 rust="$(rustc --version 2> /dev/null | awk '{ print $2 }')"
 if [ -z "$rust" ]; then
     problem "rustc is not installed"

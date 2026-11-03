@@ -31,7 +31,7 @@ install_fedora() {
     # Fedora. The -devel packages are for building penrose, the suckless
     # programs and xwallpaper, and st's make install needs tic from ncurses.
     sudo dnf install \
-        gcc make pkgconf-pkg-config cargo rust ncurses \
+        gcc make pkgconf-pkg-config ncurses \
         libX11-devel libXft-devel libXinerama-devel libXrandr-devel libXext-devel \
         libXres-devel libxcb-devel libXrender-devel freetype-devel fontconfig-devel harfbuzz-devel libxcrypt-devel \
         xcb-util-devel xcb-util-image-devel pixman-devel libjpeg-turbo-devel libpng-devel \
@@ -102,6 +102,7 @@ enable_services_systemd
 
 xdg-user-dirs-update
 
+install_rust
 install_dotfiles
 build_suckless
 build_penrose

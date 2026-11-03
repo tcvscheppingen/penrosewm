@@ -14,7 +14,7 @@ cd penrose-config
 ```
 
 Then reboot. The script:
-- installs Xorg, Rust, xmodmap, PipeWire, NetworkManager, Bluetooth, fonts, Neovim, Thunar and LibreWolf, plus the Intel or AMD GPU drivers it finds (not NVIDIA)
+- installs Rust with [rustup](https://rust-lang.org/learn/get-started/), and Xorg, xmodmap, PipeWire, NetworkManager, Bluetooth, fonts, Neovim, Thunar and LibreWolf, plus the Intel or AMD GPU drivers it finds (not NVIDIA)
 - backs up the configs it replaces to `~/.config/penrose-backup-<date>/`
 - copies the dotfiles, builds st, dmenu, slock and dwmblocks and installs them to `/usr/local`
 - copies this config to `~/.local/src/penrose`, builds it and installs it as `/usr/local/bin/penrose`

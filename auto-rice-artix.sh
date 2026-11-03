@@ -101,6 +101,7 @@ sudo usermod -aG video "$USER"
 
 xdg-user-dirs-update
 
+install_rust
 install_dotfiles
 build_suckless
 build_penrose

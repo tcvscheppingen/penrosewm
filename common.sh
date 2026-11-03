@@ -16,12 +16,12 @@ SUCKLESS=(st dmenu slock dwmblocks)
 
 # Packages for Arch and Artix. Artix has all of them in its own repos except
 # xss-lock, which comes from Arch's [extra]. penrose reads the key names for
-# its bindings from xmodmap, and rust builds it. pipewire-jack answers pacman's
+# its bindings from xmodmap; Rust comes from rustup. pipewire-jack answers pacman's
 # question which JACK to use; its default, jack2, would sit next to PipeWire
 # instead of using it.
 ARCH_PACKAGES=(
     base-devel libx11 libxft libxinerama libxrandr libxext libxres libxcb freetype2 fontconfig harfbuzz
-    rust xorg-server xorg-xinit xorg-xsetroot xorg-xset xorg-xrandr xorg-xrdb xorg-xmodmap xf86-input-libinput
+    xorg-server xorg-xinit xorg-xsetroot xorg-xset xorg-xrandr xorg-xrdb xorg-xmodmap xf86-input-libinput
     xss-lock xwallpaper unclutter dunst libnotify xcompmgr
     pipewire pipewire-pulse pipewire-alsa pipewire-jack wireplumber libpulse
     xdg-desktop-portal-gtk lxqt-policykit
@@ -117,10 +117,21 @@ build_suckless() {
     done
 }
 
+# Rust from rustup, as https://rust-lang.org/learn/get-started/ installs it.
+# rustup adds ~/.cargo/bin to the shell profiles, not to this running script.
+install_rust() {
+    if [ ! -x "$HOME/.cargo/bin/rustup" ]; then
+        echo "Installing Rust with rustup"
+        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    fi
+    . "$HOME/.cargo/env"
+}
+
 # Build the penrose config in ~/.local/src/penrose and install it as
 # /usr/local/bin/penrose. sysact finds the window manager by that name.
 build_penrose() {
     echo "Building penrose"
+    if [ -e "$HOME/.cargo/env" ]; then . "$HOME/.cargo/env"; fi
     cargo build --release --locked --manifest-path "$HOME/.local/src/penrose/Cargo.toml"
     sudo install -Dm755 "$HOME/.local/src/penrose/target/release/penrose_config" /usr/local/bin/penrose
 }
