@@ -1,5 +1,3 @@
-#[cfg(not(target_os = "macos"))]
-use penrose::x11rb::RustConn;
 use penrose::{
     Result,
     builtin::{
@@ -19,6 +17,8 @@ use penrose::{
     map, stack,
     util::spawn_with_args,
 };
+#[cfg(not(target_os = "macos"))]
+use penrose::{pure::Screen, x11rb::RustConn};
 #[cfg(not(target_os = "macos"))]
 use penrose_ui::{bar::Position, core::TextStyle, status_bar};
 use std::collections::HashMap;
@@ -66,6 +66,8 @@ fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
         "M-Tab" => modify_with(|cs| cs.toggle_tag()),
         "M-bracketright" => modify_with(|cs| cs.next_screen()),
         "M-bracketleft" => modify_with(|cs| cs.previous_screen()),
+        "M-S-bracketright" => modify_with(|cs| cs.drag_workspace_forward()),
+        "M-S-bracketleft" => modify_with(|cs| cs.drag_workspace_backward()),
         "M-grave" => modify_with(|cs| cs.next_layout()),
         "M-S-grave" => modify_with(|cs| cs.previous_layout()),
         "M-Up" => send_layout_message(|| IncMain(1)),
@@ -169,7 +171,6 @@ fn main() -> Result<()> {
 fn main() -> Result<()> {
     panic!("not supported on OSX");
 }
-
 
 #[cfg(not(target_os = "macos"))]
 #[cfg(test)]
