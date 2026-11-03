@@ -1,13 +1,3 @@
-//! penrose :: "Built in" status-bar
-//!
-//! The `penrose_ui` crate contains some UI elements that make use of the penrose APIs
-//! to provide native integration with the rest of the library. This example shows how
-//! to set up a simple `dwm` style status bar and add it to your existing window
-//! manager set up.
-//!
-//! For more customisation options, see the `bar` module of the `penrose_ui` crate in
-//! the `/crates` directory.
-
 #[cfg(not(target_os = "macos"))]
 use penrose::x11rb::RustConn;
 use penrose::{
