@@ -80,4 +80,3 @@ The colors are in `src/main.rs`, in each program's `config.h` in `~/.local/src`,
 - [DARBS](https://github.com/tcvscheppingen/DARBS), which this rice is based on
 - [suckless.org](https://suckless.org) for st, dmenu and slock, and Luke Smith's [st](https://github.com/LukeSmithxyz/st), [dwmblocks](https://github.com/LukeSmithxyz/dwmblocks) and [voidrice](https://github.com/LukeSmithxyz/voidrice) scripts
 - [gruvbox](https://github.com/morhetz/gruvbox) by Pavel Pertsev
-- Wallpaper: ["Cosmic Cliffs" in the Carina Nebula](https://science.nasa.gov/asset/webb/cosmic-cliffs-in-the-carina-nebula-nircam-and-miri-composite-image/) by NASA, ESA, CSA and STScI (James Webb Space Telescope, public domain)
