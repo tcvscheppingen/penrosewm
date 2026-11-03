@@ -1,6 +1,5 @@
-# penrose-config
-
-My window manager, built with the [Penrose](https://github.com/sminez/penrose) library, plus an auto rice script for the rest of the desktop: st, dmenu, slock, dwmblocks and dunst in [gruvbox](https://github.com/morhetz/gruvbox) dark, the same colors as the penrose bar. Based on [DARBS](https://github.com/tcvscheppingen/DARBS).
+# PenroseWM
+My window manager, built with the [Penrose](https://github.com/sminez/penrose) library, plus an auto rice script for the rest of the desktop: st, dmenu, slock, dwmblocks and dunst in [gruvbox](https://github.com/morhetz/gruvbox) dark, the same colors as the penrose bar.
 
 ![Opening terminals, switching layouts and workspaces, and starting a program from dmenu](demo.gif)
 
@@ -77,6 +76,5 @@ The colors are in `src/main.rs`, in each program's `config.h` in `~/.local/src`,
 
 ## Credits
 - [Penrose](https://github.com/sminez/penrose) by sminez
-- [DARBS](https://github.com/tcvscheppingen/DARBS), which this rice is based on
 - [suckless.org](https://suckless.org) for st, dmenu and slock, and Luke Smith's [st](https://github.com/LukeSmithxyz/st), [dwmblocks](https://github.com/LukeSmithxyz/dwmblocks) and [voidrice](https://github.com/LukeSmithxyz/voidrice) scripts
 - [gruvbox](https://github.com/morhetz/gruvbox) by Pavel Pertsev
