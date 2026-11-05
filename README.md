@@ -45,6 +45,7 @@ Penrose doesn't start? Run `./check-install.sh`. It prints one line per check, `
 | `M + F3` | Display arrangement (`displayselect`) |
 | Volume keys / `M + equal/minus` | Volume up or down by 5% |
 | Brightness keys | Screen brightness up or down by 5% |
+| `M + shift n/m` | Turn redshift blue filter on or off (not installed by default) |
 | `M + shift + s` | Write the window manager state to the log |
 | `M + alt + Escape` | Exit penrose |
 

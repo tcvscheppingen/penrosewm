@@ -48,6 +48,9 @@ const VOLUME_DOWN: &str = "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; pkill -RTM
 const BRIGHTNESS_UP: &str = "brightnessctl set 5%+";
 const BRIGHTNESS_DOWN: &str = "brightnessctl set 5%-";
 
+const REDSHIFT_ON: &str = "redshift -O 3600k";
+const REDSHIFT_OFF: &str = "redshift -x";
+
 #[cfg(not(target_os = "macos"))]
 fn sh(command: &'static str) -> Box<dyn KeyEventHandler<RustConn>> {
     key_handler(move |_, _| spawn_with_args("sh", &["-c", command]))
@@ -89,6 +92,8 @@ fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
         "M-minus" => sh(VOLUME_DOWN),
         "XF86MonBrightnessUp" => spawn(BRIGHTNESS_UP),
         "XF86MonBrightnessDown" => spawn(BRIGHTNESS_DOWN),
+        "M-S-n" => spawn(REDSHIFT_ON),
+        "M-S-m" => spawn(REDSHIFT_OFF),
     };
 
     for tag in &["1", "2", "3", "4", "5", "6", "7", "8", "9"] {
