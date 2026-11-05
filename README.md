@@ -36,7 +36,7 @@ Penrose doesn't start? Run `./check-install.sh`. It prints one line per check, `
 | `M + q` | Close the window |
 | `M + j/k` / `M + shift + j/k` | Focus / move the window down or up the stack |
 | `M + Up/Down` | More or fewer main windows |
-| `M + Left/Right` | Main area smaller or larger |
+| `M + h/l` | Main area smaller or larger |
 | `M + grave` / `M + shift + grave` | Next / previous layout |
 | `M + 1…9` / `M + shift + 1…9` | Go to a workspace / move the window to it |
 | `M + Tab` | Previous workspace |
