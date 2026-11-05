@@ -75,6 +75,7 @@ fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
         "M-Right" => send_layout_message(|| ExpandMain),
         "M-Left" => send_layout_message(|| ShrinkMain),
         "M-d" => spawn("dmenu_run"),
+        "M-S-d" => spawn("passmenu"),
         "M-S-s" => log_current_state(),
         "M-Return" => spawn(TERMINAL),
         "M-w" => spawn(BROWSER),

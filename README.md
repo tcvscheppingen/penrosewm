@@ -31,6 +31,7 @@ Penrose doesn't start? Run `./check-install.sh`. It prints one line per check, `
 | Keys | Action |
 |---|---|
 | `M + Return` / `M + d` | Terminal (st) / run a program (dmenu) |
+| `M + shift + d` | Open `passmenu` password manager (requires setup) |
 | `M + w` / `M + r` | Browser (LibreWolf) / file manager (Thunar) |
 | `M + q` | Close the window |
 | `M + j/k` / `M + shift + j/k` | Focus / move the window down or up the stack |
