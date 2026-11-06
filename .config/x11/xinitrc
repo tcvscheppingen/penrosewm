@@ -54,4 +54,7 @@ fi
 # penrose replaces this script, so the X session ends when penrose does
 # ("leave penrose" in sysact). The log is where to look when penrose doesn't
 # start.
-exec penrose > "$HOME/.local/share/penrose.log" 2>&1
+while true; do
+    exec penrose > "$HOME/.local/share/penrose.log" 2>&1
+    export RESTARTED=true
+done

@@ -15,7 +15,7 @@ use penrose::{
         bindings::{KeyEventHandler, parse_keybindings_with_xmodmap},
         layout::LayoutStack,
     },
-    extensions::hooks::add_ewmh_hooks,
+    extensions::{actions::toggle_fullscreen, hooks::add_ewmh_hooks},
     map, stack,
     util::spawn_with_args,
 };
@@ -77,6 +77,7 @@ fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
         "M-Down" => send_layout_message(|| IncMain(-1)),
         "M-l" => send_layout_message(|| ExpandMain),
         "M-h" => send_layout_message(|| ShrinkMain),
+        "M-S-f" => toggle_fullscreen(),
         "M-d" => spawn("dmenu_run"),
         "M-S-d" => spawn("passmenu"),
         "M-S-s" => log_current_state(),
