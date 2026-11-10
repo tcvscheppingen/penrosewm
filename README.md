@@ -60,7 +60,7 @@ Penrose doesn't start? Run `./check-install.sh`. It prints one line per check, `
 - **Key bindings:** penrose looks up key names with `xmodmap -pke`. Run `cargo test` in a terminal inside X to check them; outside X every key name is unknown.
 - **Changing st, dmenu, slock or dwmblocks:** edit `config.h` in `~/.local/src/<program>`, then `make && sudo make install` there.
 - **No sound?** If the volume shows `vol dummy` on an Intel laptop, run `sound-fix`.
-- **Locking:** after 5 minutes idle, and before sleep. The displays turn off after 10 minutes. The times are the `xset` lines in `~/.config/x11/xinitrc`.
+- **Locking:** after 5 minutes idle, and before sleep. The displays turn off after 10 minutes. The times are the `xset` lines in `~/.config/x11/xinitrc`. Neither happens while a video or music plays (`keepawake`); a paused one doesn't count.
 - **Wallpaper:** `setbg image.jpg` changes it, and `setbg folder` picks a random image from a folder.
 
 ## Palette

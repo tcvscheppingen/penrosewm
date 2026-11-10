@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Keeps the screen from locking or turning off while a video or music plays.
+# The browser doesn't count as input, so without this the screen locks after
+# 5 minutes of a YouTube video. Every minute, while a player (LibreWolf, or
+# anything else playerctl sees) is playing, this resets the idle time that
+# xset and xss-lock count from. A paused video locks as usual.
+
+while :; do
+	if playerctl -a status 2> /dev/null | grep -qx Playing; then
+		xset s reset
+	fi
+	sleep 60
+done
