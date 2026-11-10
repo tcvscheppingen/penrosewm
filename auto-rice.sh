@@ -28,10 +28,11 @@ install_fedora() {
     fi
 
     # pactl comes from pulseaudio-utils and nmtui from NetworkManager-tui on
-    # Fedora. The -devel packages are for building penrose, the suckless
-    # programs and xwallpaper, and st's make install needs tic from ncurses.
+    # Fedora. git clones the suckless programs, the -devel packages are for
+    # building them, penrose and xwallpaper, and st's make install needs tic
+    # from ncurses.
     sudo dnf install \
-        gcc make pkgconf-pkg-config ncurses \
+        gcc make git pkgconf-pkg-config ncurses \
         libX11-devel libXft-devel libXinerama-devel libXrandr-devel libXext-devel \
         libXres-devel libxcb-devel libXrender-devel freetype-devel fontconfig-devel harfbuzz-devel libxcrypt-devel \
         xcb-util-devel xcb-util-image-devel pixman-devel libjpeg-turbo-devel libpng-devel \

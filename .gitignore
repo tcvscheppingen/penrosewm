@@ -1,10 +1,3 @@
 target/
 .DS_Store
 
-# Build output of the suckless programs
-.local/src/*/*.o
-.local/src/st/st
-.local/src/dmenu/dmenu
-.local/src/dmenu/stest
-.local/src/slock/slock
-.local/src/dwmblocks/dwmblocks

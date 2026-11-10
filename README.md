@@ -16,11 +16,11 @@ cd penrose-config
 Then reboot. The script:
 - installs Rust with [rustup](https://rust-lang.org/learn/get-started/), and Xorg, xmodmap, PipeWire, NetworkManager, Bluetooth, fonts, Neovim, Thunar and LibreWolf, plus the Intel or AMD GPU drivers it finds (not NVIDIA)
 - backs up the configs it replaces to `~/.config/penrose-backup-<date>/`
-- copies the dotfiles, builds st, dmenu, slock and dwmblocks and installs them to `/usr/local`
+- copies the dotfiles, clones [st](https://github.com/tcvscheppingen/st), [dmenu](https://github.com/tcvscheppingen/dmenu), [slock](https://github.com/tcvscheppingen/slock) and [dwmblocks](https://github.com/tcvscheppingen/dwmblocks) into `~/.local/src`, builds them and installs them to `/usr/local`
 - copies this config to `~/.local/src/penrose`, builds it and installs it as `/usr/local/bin/penrose`
 - asks how to start penrose: on login on TTY1, or from a minimal LightDM login screen (`RICE_LOGIN=tty|dm|none` answers in advance)
 
-Already have the packages? `./move-config-files.sh` only copies the dotfiles and builds penrose and the suckless programs.
+Already have the packages? `./move-config-files.sh` only copies the dotfiles, clones the suckless programs and builds them and penrose. It needs `git`.
 
 Penrose doesn't start? Run `./check-install.sh`. It prints one line per check, `ok` or `PROBLEM` with the cause.
 
@@ -58,7 +58,7 @@ Penrose doesn't start? Run `./check-install.sh`. It prints one line per check, `
 - **Log:** penrose writes to `~/.local/share/penrose.log`. Look there when it doesn't start.
 - **Changing penrose:** edit `~/.local/src/penrose/src/main.rs`, then run `cargo build --release` there and `sudo install -m755 target/release/penrose_config /usr/local/bin/penrose`. Leave penrose with `sysact` and log in again to use the new build.
 - **Key bindings:** penrose looks up key names with `xmodmap -pke`. Run `cargo test` in a terminal inside X to check them; outside X every key name is unknown.
-- **Changing st, dmenu, slock or dwmblocks:** edit `config.h` in `~/.local/src/<program>`, then `make && sudo make install` there.
+- **Changing st, dmenu, slock or dwmblocks:** edit `config.h` in `~/.local/src/<program>`, then `make && sudo make install` there. Each is a clone of its own repo, so `git pull` there gets updates.
 - **No sound?** If the volume shows `vol dummy` on an Intel laptop, run `sound-fix`.
 - **Locking:** after 5 minutes idle, and before sleep. The displays turn off after 10 minutes. The times are the `xset` lines in `~/.config/x11/xinitrc`. Neither happens while a video or music plays (`keepawake`); a paused one doesn't count.
 - **Wallpaper:** `setbg image.jpg` changes it, and `setbg folder` picks a random image from a folder.

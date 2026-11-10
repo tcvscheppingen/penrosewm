@@ -11,8 +11,10 @@ fi
 
 BACKUP_DIR="$HOME/.config/penrose-backup-$(date +%Y%m%d-%H%M%S)"
 
-# The suckless programs in .local/src, built and installed to /usr/local
+# The suckless programs, each in its own repo. They are cloned into
+# ~/.local/src, built there and installed to /usr/local.
 SUCKLESS=(st dmenu slock dwmblocks)
+SUCKLESS_URL="https://github.com/tcvscheppingen"
 
 # Packages for Arch and Artix. Artix has all of them in its own repos except
 # xss-lock, which comes from Arch's [extra]. penrose reads the key names for
@@ -20,7 +22,7 @@ SUCKLESS=(st dmenu slock dwmblocks)
 # question which JACK to use; its default, jack2, would sit next to PipeWire
 # instead of using it.
 ARCH_PACKAGES=(
-    base-devel libx11 libxft libxinerama libxrandr libxext libxres libxcb freetype2 fontconfig harfbuzz
+    base-devel git libx11 libxft libxinerama libxrandr libxext libxres libxcb freetype2 fontconfig harfbuzz
     xorg-server xorg-xinit xorg-xsetroot xorg-xset xorg-xrandr xorg-xrdb xorg-xmodmap xf86-input-libinput
     xss-lock xwallpaper unclutter dunst libnotify xcompmgr
     pipewire pipewire-pulse pipewire-alsa pipewire-jack wireplumber libpulse
@@ -59,8 +61,9 @@ backup() {
 }
 
 # Back up the configs, scripts and sources this theme replaces, then copy the
-# dotfiles into ~/.config, ~/.local/bin, ~/.local/share and ~/.local/src, and
-# the penrose config into ~/.local/src/penrose
+# dotfiles into ~/.config, ~/.local/bin and ~/.local/share, clone the
+# suckless programs into ~/.local/src and copy the penrose config into
+# ~/.local/src/penrose
 install_dotfiles() {
     for dir in x11 dunst gtk-3.0 nvim helix; do
         if [ -e "$HOME/.config/$dir" ]; then
@@ -92,7 +95,7 @@ install_dotfiles() {
             mkdir -p "$BACKUP_DIR/src"
             mv "$HOME/.local/src/$prog" "$BACKUP_DIR/src/"
         fi
-        cp -a "$REPO_DIR/.local/src/$prog" "$HOME/.local/src/"
+        git clone "$SUCKLESS_URL/$prog.git" "$HOME/.local/src/$prog"
     done
 
     if [ -e "$HOME/.local/src/penrose" ]; then
