@@ -1,28 +1,24 @@
 # PenroseWM
-My window manager, built with the [Penrose](https://github.com/sminez/penrose) library, plus an auto rice script for the rest of the desktop: st, dmenu, slock, dwmblocks and dunst in [gruvbox](https://github.com/morhetz/gruvbox) dark, the same colors as the penrose bar.
+My window manager, built with the [Penrose](https://github.com/sminez/penrose) library. The bar, borders and menus use [gruvbox](https://github.com/morhetz/gruvbox) dark.
 
 ![Opening terminals, switching layouts and workspaces, and starting a program from dmenu](demo.gif)
 
 ## Install
 
-For Arch and Arch based distributions, Fedora, and Artix with dinit. **Read a script before you run it.** Run it as your own user, not as root; it uses `sudo` where needed.
+[PARBS](https://github.com/tcvscheppingen/PARBS) installs penrose together with the rest of the desktop (st, dmenu, slock, dwmblocks, dunst and the dotfiles the key bindings below use), on Arch, Fedora and Artix:
 
 ```bash
-git clone <this repo>
-cd penrose-config
+git clone https://github.com/tcvscheppingen/PARBS
+cd PARBS
 ./auto-rice.sh        # on Artix: ./auto-rice-artix.sh
 ```
 
-Then reboot. The script:
-- installs Rust with [rustup](https://rust-lang.org/learn/get-started/), and Xorg, xmodmap, PipeWire, NetworkManager, Bluetooth, fonts, Neovim, Thunar and LibreWolf, plus the Intel or AMD GPU drivers it finds (not NVIDIA)
-- backs up the configs it replaces to `~/.config/penrose-backup-<date>/`
-- copies the dotfiles, clones [st](https://github.com/tcvscheppingen/st), [dmenu](https://github.com/tcvscheppingen/dmenu), [slock](https://github.com/tcvscheppingen/slock) and [dwmblocks](https://github.com/tcvscheppingen/dwmblocks) into `~/.local/src`, builds them and installs them to `/usr/local`
-- copies this config to `~/.local/src/penrose`, builds it and installs it as `/usr/local/bin/penrose`
-- asks how to start penrose: on login on TTY1, or from a minimal LightDM login screen (`RICE_LOGIN=tty|dm|none` answers in advance)
+To build only penrose, you need Rust 1.85 or newer and the Xlib, Xft and Xrandr development files:
 
-Already have the packages? `./move-config-files.sh` only copies the dotfiles, clones the suckless programs and builds them and penrose. It needs `git`.
-
-Penrose doesn't start? Run `./check-install.sh`. It prints one line per check, `ok` or `PROBLEM` with the cause.
+```bash
+cargo build --release
+sudo install -Dm755 target/release/penrose_config /usr/local/bin/penrose
+```
 
 ## Key bindings
 
@@ -50,18 +46,14 @@ Penrose doesn't start? Run `./check-install.sh`. It prints one line per check, `
 | `M + shift + s` | Write the window manager state to the log |
 | `M + alt + Escape` | Exit penrose |
 
-`maimpick` (screenshots) and `dmenurecord` (recordings) are installed too, without a key: run them from dmenu, or bind them in `src/main.rs`.
+`maimpick` (screenshots) and `dmenurecord` (recordings) come with PARBS, without a key: run them from dmenu, or bind them in `src/main.rs`.
 
-## Good to know
+## Changing penrose
 
-- **Status bar:** the penrose bar shows the workspaces, the layout, the window title and, on the right, the dwmblocks text (network, recording, volume, battery, memory, clock) without icons. There is no system tray, and clicking a block does nothing: that needs dwm's statuscmd patch.
-- **Log:** penrose writes to `~/.local/share/penrose.log`. Look there when it doesn't start.
-- **Changing penrose:** edit `~/.local/src/penrose/src/main.rs`, then run `cargo build --release` there and `sudo install -m755 target/release/penrose_config /usr/local/bin/penrose`. Leave penrose with `sysact` and log in again to use the new build.
+- Edit `src/main.rs` (with PARBS: `~/.local/src/penrose/src/main.rs`), then run `cargo build --release` there and `sudo install -m755 target/release/penrose_config /usr/local/bin/penrose`. Leave penrose with `sysact` and log in again to use the new build.
 - **Key bindings:** penrose looks up key names with `xmodmap -pke`. Run `cargo test` in a terminal inside X to check them; outside X every key name is unknown.
-- **Changing st, dmenu, slock or dwmblocks:** edit `config.h` in `~/.local/src/<program>`, then `make && sudo make install` there. Each is a clone of its own repo, so `git pull` there gets updates.
-- **No sound?** If the volume shows `vol dummy` on an Intel laptop, run `sound-fix`.
-- **Locking:** after 5 minutes idle, and before sleep. The displays turn off after 10 minutes. The times are the `xset` lines in `~/.config/x11/xinitrc`. Neither happens while a video or music plays (`keepawake`); a paused one doesn't count.
-- **Wallpaper:** `setbg image.jpg` changes it, and `setbg folder` picks a random image from a folder.
+- **Status bar:** the bar shows the workspaces, the layout, the window title and, on the right, the root window name that dwmblocks sets. There is no system tray.
+- **Log:** penrose writes to `~/.local/share/penrose.log`. Look there when it doesn't start.
 
 ## Palette
 
@@ -69,15 +61,13 @@ Penrose doesn't start? Run `./check-install.sh`. It prints one line per check, `
 
 | | Color | |
 |---|---|---|
-| Background | `#282828` | Bar, terminal, menus |
-| Border | `#3c3836` | Unfocused windows |
-| Text | `#ebdbb2` | |
-| Accent | `#458588` | Focused workspace, dmenu, notifications |
-| Red | `#cc241d` / `#fb4934` | Wrong password / critical notifications |
+| Background | `#282828` | Bar |
+| Grey | `#3c3836` | Workspaces without windows |
+| Text | `#ebdbb2` | Bar text |
+| Accent | `#458588` | Focused workspace |
 
-The colors are in `src/main.rs`, in each program's `config.h` in `~/.local/src`, in `~/.config/dunst/dunstrc` and in `~/.config/nvim/colors/gruvbox.lua`. Helix uses its built-in `gruvbox` theme.
+The colors are at the top of `src/main.rs`. PARBS uses the same ones for the rest of the desktop.
 
 ## Credits
 - [Penrose](https://github.com/sminez/penrose) by sminez
-- [suckless.org](https://suckless.org) for st, dmenu and slock, and Luke Smith's [st](https://github.com/LukeSmithxyz/st), [dwmblocks](https://github.com/LukeSmithxyz/dwmblocks) and [voidrice](https://github.com/LukeSmithxyz/voidrice) scripts
 - [gruvbox](https://github.com/morhetz/gruvbox) by Pavel Pertsev
