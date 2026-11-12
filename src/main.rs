@@ -20,13 +20,6 @@ use penrose::{
     util::spawn_with_args,
 };
 #[cfg(not(target_os = "macos"))]
-use penrose::{
-    core::State,
-    extensions::hooks::ewmh::EWMH_SUPPORTED_ATOMS,
-    pure::geometry::Rect,
-    x::{Atom, Prop, WinType, XConn},
-};
-#[cfg(not(target_os = "macos"))]
 use penrose_ui::{bar::Position, core::TextStyle, status_bar};
 use std::collections::HashMap;
 use tracing_subscriber::{self, prelude::*};
@@ -147,28 +140,6 @@ unsafe extern "C" fn log_x_error(_: *mut Display, e: *mut XErrorEvent) -> i32 {
 }
 
 #[cfg(not(target_os = "macos"))]
-fn set_supporting_wm_check(_: &mut State<RustConn>, x: &RustConn) -> Result<()> {
-    let check_win = x.create_window(WinType::CheckWin, Rect::new(0, 0, 1, 1), false)?;
-    let check = Atom::NetSupportingWmCheck.as_ref();
-
-    x.set_prop(x.root(), check, Prop::Window(vec![check_win]))?;
-    x.set_prop(check_win, check, Prop::Window(vec![check_win]))?;
-    x.set_prop(
-        check_win,
-        Atom::NetWmName.as_ref(),
-        Prop::UTF8String(vec!["penrose".to_owned()]),
-    )?;
-
-    let supported = EWMH_SUPPORTED_ATOMS
-        .iter()
-        .chain([&Atom::NetSupportingWmCheck])
-        .map(|a| a.as_ref().to_owned())
-        .collect();
-
-    x.set_prop(x.root(), Atom::NetSupported.as_ref(), Prop::Atom(supported))
-}
-
-#[cfg(not(target_os = "macos"))]
 fn main() -> Result<()> {
     tracing_subscriber::fmt()
         .with_env_filter("debug")
@@ -178,14 +149,10 @@ fn main() -> Result<()> {
     // SAFETY: log_x_error only reads the event Xlib passes it
     unsafe { XSetErrorHandler(Some(log_x_error)) };
 
-    let mut config = Config {
+    let config = add_ewmh_hooks(Config {
         default_layouts: layouts(),
         ..Config::default()
-    };
-    // Composed before the EWMH hooks so it runs after them and extends the
-    // _NET_SUPPORTED they set
-    config.compose_or_set_startup_hook(set_supporting_wm_check);
-    let config = add_ewmh_hooks(config);
+    });
 
     let conn = RustConn::new()?;
     let key_bindings = parse_keybindings_with_xmodmap(raw_key_bindings())?;
