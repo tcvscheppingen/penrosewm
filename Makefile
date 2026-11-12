@@ -10,22 +10,14 @@ build:
 install:
 	@echo ":: Installing binaries..."
 	@mkdir -p /usr/local/bin
-	@cp -f target/release/penrose /usr/local/bin
-	@chmod 755 /usr/local/bin/penrose
-	@cp -R bin/. /usr/local/bin
-	@ls bin | xargs -I {} chmod 755 /usr/local/bin/{}
-	@echo ":: Installing utility scripts..."
-	@cp -r scripts /usr/local
-	@ls scripts | grep -Ev 'png|jpeg' | xargs -I {} chmod 755 /usr/local/scripts/{}
+	@cp -f target/release/penrosewm /usr/local/bin
+	@chmod 755 /usr/local/bin/penrosewm
 	@echo ":: Done"
 
 .PHONY: uninstall
 uninstall:
 	@echo ":: Removing binaries..."
-	@ls bin | xargs -I {} rm -f /usr/local/bin/{}
-	@rm -f /usr/local/bin/penrose
-	@echo ":: Removing scripts..."
-	@ls scripts | xargs -I {} rm -f /usr/local/scripts/{}
+	@rm -f /usr/local/bin/penrosewm
 	@echo ":: Done"
 
 .PHONY: build-debug
@@ -37,5 +29,5 @@ build-debug:
 .PHONY: install-debug
 install-debug:
 	@echo ":: Installing binary..."
-	@cp -f target/debug/penrose /usr/local/bin
-	@chmod 755 /usr/local/bin/penrose
+	@cp -f target/debug/penrosewm /usr/local/bin
+	@chmod 755 /usr/local/bin/penrosewm

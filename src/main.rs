@@ -77,7 +77,7 @@ fn raw_key_bindings() -> HashMap<String, Box<dyn KeyEventHandler<RustConn>>> {
         "M-Down" => send_layout_message(|| IncMain(-1)),
         "M-l" => send_layout_message(|| ExpandMain),
         "M-h" => send_layout_message(|| ShrinkMain),
-        "M-S-f" => toggle_fullscreen(),
+        "M-f" => toggle_fullscreen(),
         "M-d" => spawn("dmenu_run"),
         "M-S-d" => spawn("passmenu"),
         "M-S-s" => log_current_state(),

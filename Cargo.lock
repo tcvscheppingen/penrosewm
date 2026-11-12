@@ -166,16 +166,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "penrose_config"
-version = "0.1.0"
-dependencies = [
- "penrose",
- "penrose_ui",
- "tracing-subscriber",
- "x11",
-]
-
-[[package]]
 name = "penrose_keysyms"
 version = "0.3.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -195,6 +185,16 @@ dependencies = [
  "tracing",
  "x11",
  "yeslogic-fontconfig-sys",
+]
+
+[[package]]
+name = "penrosewm"
+version = "0.1.0"
+dependencies = [
+ "penrose",
+ "penrose_ui",
+ "tracing-subscriber",
+ "x11",
 ]
 
 [[package]]
